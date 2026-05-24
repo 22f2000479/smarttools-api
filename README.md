@@ -1,64 +1,198 @@
-# Reports API
+# SmartTools API
 
-A small FastAPI service that exposes a paginated `/reports` endpoint backed by a deterministic in-memory dataset.
+SmartTools API is a simple backend project built using FastAPI.  
+The idea behind this project is to create a small API where users can explore different AI tools and apply filters, sorting, and pagination.
 
-## Layout
+I built this project to understand:
+- how APIs work
+- how backend applications are structured
+- how filtering and pagination are implemented
+- the difference between quick coding vs structured development
 
-```
+This repository contains two branches:
+- `sdd_submission`
+- `vibe_coded_submission`
+
+Both branches solve the same problem but using different development approaches.
+
+---
+
+## Features
+
+- View AI tools data
+- Filter tools by category
+- Filter tools by pricing type
+- Sort data
+- Pagination support
+- FastAPI Swagger documentation
+- Health check endpoint
+
+---
+
+## Tech Used
+
+- Python
+- FastAPI
+- Uvicorn
+- Pydantic
+
+---
+
+## Project Structure
+
+```text
 app/
 ├── __init__.py
-├── data.py        # Seed dataset (120 rows, deterministic)
-├── models.py      # Pydantic models — internal vs public
-├── reports.py     # Filter / sort / pagination query layer
-└── main.py        # FastAPI HTTP layer
+├── data.py
+├── models.py
+├── reports.py
+└── main.py
 ```
 
-## Requirements
+### File Usage
 
-- Python 3.10+
-- pip
+- `models.py` contains the data models
+- `data.py` contains sample dataset
+- `reports.py` handles filtering and sorting logic
+- `main.py` contains API routes
 
-## Setup
+---
+
+## API Endpoints
+
+### Health Endpoint
+
+```http
+GET /health
+```
+
+Example response:
+
+```json
+{
+  "status": "ok"
+}
+```
+
+---
+
+### Tools Endpoint
+
+```http
+GET /tools
+```
+
+---
+
+## Available Query Parameters
+
+| Parameter | Purpose |
+|---|---|
+| category | Filter by tool category |
+| pricing | Filter by pricing type |
+| sort | Sort results |
+| descending | Ascending/descending order |
+| offset | Pagination offset |
+| limit | Number of results |
+
+---
+
+## Example URLs
+
+Get all tools:
 
 ```bash
-git clone https://github.com/IITMBSMLOps/SpecDrivenDevelopmentBase.git
-cd SpecDrivenDevelopmentBase
-
-python3 -m venv .venv
-source .venv/bin/activate          # Windows: .venv\Scripts\activate
-
-pip install -e .
+http://127.0.0.1:8000/tools
 ```
 
-## Run the API
+Filter chatbot tools:
 
 ```bash
-uvicorn app.main:app --reload --port 8000
+http://127.0.0.1:8000/tools?category=chatbot
 ```
 
-Then hit it from another terminal:
+Filter free tools:
 
 ```bash
-curl "http://localhost:8000/health"
-curl "http://localhost:8000/reports?limit=3" | python -m json.tool
+http://127.0.0.1:8000/tools?pricing=free
 ```
 
-## Endpoints
+Pagination example:
 
-| Method | Path       | Description                                            |
-| ------ | ---------- | ------------------------------------------------------ |
-| GET    | `/health`  | Liveness probe — returns `{"status": "ok"}`.           |
-| GET    | `/reports` | Paginated list of reports with filtering and sorting.  |
+```bash
+http://127.0.0.1:8000/tools?limit=5
+```
 
-### `GET /reports` query parameters
+---
 
-| Param        | Type            | Default      | Notes                                            |
-| ------------ | --------------- | ------------ | ------------------------------------------------ |
-| `status`     | enum            | —            | One of `pending`, `approved`, `rejected`, `archived`. |
-| `date_from`  | datetime (ISO)  | —            | Lower bound on `created_at` (inclusive).         |
-| `date_to`    | datetime (ISO)  | —            | Upper bound on `created_at` (inclusive).         |
-| `sort`       | string          | `created_at` | One of `id`, `title`, `status`, `owner`, `amount`, `created_at`. |
-| `descending` | bool            | `true`       | Sort direction.                                  |
-| `offset`     | int (>=0)       | `0`          | Pagination offset.                               |
-| `limit`      | int (1..200)    | `20`         | Page size.                                       |
+## Setup Instructions
 
+Clone the repository:
+
+```bash
+git clone https://github.com/22f2000479/smarttools-api.git
+```
+
+Go inside the folder:
+
+```bash
+cd smarttools-api
+```
+
+Create virtual environment:
+
+### Windows
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+Install dependencies:
+
+```bash
+pip install fastapi uvicorn
+```
+
+Run the server:
+
+```bash
+python -m uvicorn app.main:app --reload --port 8000
+```
+
+---
+
+## Swagger Documentation
+
+After running the server open:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+---
+
+## Branch Information
+
+| Branch Name | Description |
+|---|---|
+| sdd_submission | Structured version with separated layers |
+| vibe_coded_submission | Quick implementation version |
+
+---
+
+## What I Learned
+
+Through this project I learned:
+- FastAPI basics
+- API routing
+- Query parameters
+- Pagination
+- Git branching
+- Difference between modular and quick implementations
+
+---
+
+## Author
+
+Raunak Sen
