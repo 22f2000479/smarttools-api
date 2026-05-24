@@ -11,6 +11,14 @@ from app.reports import query
 
 app = FastAPI(title="SDD Workshop — Reports API", version="0.1.0")
 
+@app.get("/")
+def home():
+    return {
+        "message": "Welcome to SmartTools API 🚀",
+        "docs": "/docs",
+        "health": "/health",
+        "reports": "/reports"
+    }
 
 @app.get("/health")
 def health() -> dict[str, str]:
