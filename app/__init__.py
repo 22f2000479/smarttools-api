@@ -1,1 +1,1 @@
-"""SDD Workshop — Reports app."""
+"""SmartTools API built with FastAPI."""
